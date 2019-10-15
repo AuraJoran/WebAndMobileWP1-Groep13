@@ -6,30 +6,30 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Model\AssetModel;
+use App\Model\TicketModel;
 use Symfony\Component\HttpFoundation\Request;
 
-class AssetController extends Controller
+class TicketController extends Controller
 {
-    private $assetModel;
+    private $ticketModel;
 
-    public function __construct(AssetModel $assetModel)
+    public function __construct(TicketModel $ticketModel)
     {
-        $this->assetModel = $assetModel;
+        $this->ticketModel = $ticketModel;
     }
 
     /**
-     * @Route("/assets", name="getAssetByName")
+     * @Route("/tickets", methods={"GET"}, name="getTicketsByAssetName")
      */
-    public function findAssetByName(Request $request)
+    public function findTicketsByAssetName(Request $request)
     {
         $statuscode = 200;
-        $name = $request->query->get("naam");
-        $asset = null;
+        $assetName = $request->query->get("assetName");
+        $tickets = null;
 
         try {
-            $asset = $this->assetModel->findAssetByName($name);
-            if ($asset == null){
+            $tickets = $this->ticketModel->findTicketsByAssetName($assetName);
+            if ($tickets == null){
                 $statuscode = 404;
             }
         } catch (\InvalidArgumentException $exception) {
@@ -38,6 +38,7 @@ class AssetController extends Controller
             $statuscode = 500;
         }
 
-        return new JsonResponse($asset, $statuscode);
+        return new JsonResponse($tickets, $statuscode);
     }
+
 }

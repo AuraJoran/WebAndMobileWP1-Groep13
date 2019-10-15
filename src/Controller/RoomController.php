@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Model\RoomModel;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints\Json;
 
-class RoomController extends AbstractController
+class RoomController extends Controller
 {
     private $roomModel;
 
@@ -18,11 +21,12 @@ class RoomController extends AbstractController
     }
 
     /**
-     * @Route("/rooms/{name}", methods={"GET"}, name="getRoomByName")
+     * @Route("/rooms", methods={"GET"}, name="getRoomByName")
      */
-    public function findRoomByName($name)
+    public function findRoomByName(Request $request)
     {
         $statuscode = 200;
+        $name = $request->query->get("naam");
         $room = null;
 
         try {
@@ -36,7 +40,7 @@ class RoomController extends AbstractController
             $statuscode = 500;
         }
 
-        return new JsonResponse($room, $statuscode);
+        return new JsonResponse("HappinessScore: " . $room["happinessScore"] , $statuscode);
     }
 
 }

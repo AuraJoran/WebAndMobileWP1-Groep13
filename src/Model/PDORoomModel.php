@@ -3,7 +3,8 @@
 namespace App\Model;
 
 class PDORoomModel implements RoomModel {
-    
+    private $connection;
+
     public function __construct(Connection $connection) {
         $this->connection = $connection;
     }
