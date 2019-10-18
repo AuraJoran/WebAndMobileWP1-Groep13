@@ -27,4 +27,4 @@ services:
     # please note that last definitions always *replace* previous ones
 
     App\Model\Connection:
-        arguments: ['mysql:host=192.168.33.22:3306;dbname=wamdb','root','root']
+        arguments: ['mysql:host=127.0.0.1:3306;dbname=wamdb','root','']
