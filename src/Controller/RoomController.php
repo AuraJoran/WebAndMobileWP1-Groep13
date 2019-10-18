@@ -26,7 +26,7 @@ class RoomController extends Controller
     public function findRoomByName(Request $request)
     {
         $statuscode = 200;
-        $name = $request->query->get("naam");
+        $name = $request->query->get('naam');
         $room = null;
 
         try {
@@ -41,6 +41,29 @@ class RoomController extends Controller
         }
 
         return new JsonResponse("HappinessScore: " . $room["happinessScore"] , $statuscode);
+    }
+
+    /**
+     * @Route("/rooms/max", methods={"GET"}, name="getRoomsWithLesserHappinessScore")
+     */
+    public function findRoomsWithLesserHappinessScore(Request $request)
+    {
+        $statuscode = 200;
+        $score = $request->query->get('score');
+        $rooms = null;
+
+        try {
+            $rooms = $this->roomModel->findRoomsWithLesserHappinessScore($score);
+            if ($rooms == null){
+                $statuscode = 404;
+            }
+        } catch (\InvalidArgumentException $exception) {
+            $statuscode = 400;
+        } catch (\PDOException $exception) {
+            $statuscode = 500;
+        }
+
+        return new JsonResponse($rooms, $statuscode);
     }
 
 }
