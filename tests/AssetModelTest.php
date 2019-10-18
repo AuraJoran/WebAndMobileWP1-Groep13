@@ -11,12 +11,17 @@ use Symfony\Component\HttpClient\Exception\InvalidArgumentException;
 
 class AssetModelTest extends TestCase
 {
+    private $connection;
+
+    public function setUp()
+    {
+        $connection = new Connection('mysql:host=127.0.0.1:3306;dbname=wamdb','root','');
+    }
 
     public function testFindAssetByName()
     {
-        $connection = new Connection('mysql:host=192.168.33.22:3306;dbname=wamdb','root','root');
 
-        $assetmodel = new PDOAssetModel($connection);
+        $assetmodel = new PDOAssetModel($this->connection);
         $result = $assetmodel->findAssetByName('test');
 
         $this->assertNotEmpty($result);
