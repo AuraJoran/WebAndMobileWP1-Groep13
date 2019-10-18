@@ -41,4 +41,22 @@ class TicketController extends Controller
         return new JsonResponse($tickets, $statuscode);
     }
 
+    /**
+     * @Route("/tickets/add", methods={"GET"}, name="addNumberOfVotesByOne")
+     */
+    public function AddNumberOfVotesByOne(Request $request) {
+        $statuscode = 200;
+        $id = $request->query->get('id');
+
+        try {
+            $this->ticketModel->addNumberOfVotesByOne($id);
+        } catch (\InvalidArgumentException $exception) {
+            $statuscode = 400;
+        } catch (\PDOException $exception) {
+            $statuscode = 500;
+        }
+
+        return new JsonResponse("Done!", $statuscode);
+    }
+
 }
