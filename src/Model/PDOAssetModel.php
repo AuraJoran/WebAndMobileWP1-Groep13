@@ -10,6 +10,7 @@ class PDOAssetModel implements AssetModel {
 
     public function findAssetByName($name)
     {
+        $this->validateName($name);
         $pdo = $this->connection->getPDO();
         $statement = $pdo->prepare('SELECT * FROM assets WHERE name=:name');
         $statement->bindParam(':name', $name, \PDO::PARAM_STR);
@@ -22,5 +23,11 @@ class PDOAssetModel implements AssetModel {
             $asset = ['id' => $id, 'roomId' => $roomdId, 'name' => $name];
         }
         return $asset;
+    }
+
+    private function validateName ($name) {
+        if (!is_string($name)) {
+            throw new \InvalidArgumentException("Name moet een string bevatten");
+        }
     }
 }
