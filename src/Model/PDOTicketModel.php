@@ -39,23 +39,6 @@ class PDOTicketModel implements TicketModel {
         $statement->execute();
     }
 
-    public function findTicketById($id) {
-        $this->validateId($id);
-        $pdo = $this->connection->getPDO();
-        $statement = $pdo->prepare('SELECT * FROM tickets WHERE id=:id');
-        $statement->bindParam(':id', $id, \PDO::PARAM_INT);
-        $statement->execute();
-        $statement->bindColumn(1, $id, \PDO::PARAM_INT);
-        $statement->bindColumn(2, $assetId, \PDO::PARAM_INT);
-        $statement->bindColumn(3, $numberOfVotes, \PDO::PARAM_INT);
-        $statement->bindColumn(4, $description, \PDO::PARAM_STR);
-        $ticket = null;
-        if ($statement->fetch(\PDO::FETCH_BOUND)) {
-            $ticket = ['id' => $id, 'assetId' => $assetId, 'numberOfVotes' => $numberOfVotes, 'description' => $description];
-        }
-        return $ticket;
-    }
-
     private function validateId($id) {
         if (!(is_string($id) && preg_match("/^[0-9]+$/", $id) && (int)$id > 0)) {
             throw new \InvalidArgumentException("Id moet een int > 0 bevatten");
