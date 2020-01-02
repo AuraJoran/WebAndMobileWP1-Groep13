@@ -6,4 +6,5 @@ interface AssetModel
 {
     public function findAssetByName($name);
     public function findAssetsByRoom($roomId);
+    public function findAssetById($id);
 }

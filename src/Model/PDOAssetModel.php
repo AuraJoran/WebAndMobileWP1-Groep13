@@ -25,6 +25,22 @@ class PDOAssetModel implements AssetModel {
         return $asset;
     }
 
+    public function findAssetById($id)
+    {
+        $pdo = $this->connection->getPDO();
+        $statement = $pdo->prepare('SELECT * FROM assets WHERE id=:id');
+        $statement->bindParam(':id', $id, \PDO::PARAM_STR);
+        $statement->execute();
+        $statement->bindColumn(1, $id, \PDO::PARAM_INT);
+        $statement->bindColumn(2, $roomdId, \PDO::PARAM_INT);
+        $statement->bindColumn(3, $name, \PDO::PARAM_STR);
+        $asset = null;
+        if ($statement->fetch(\PDO::FETCH_BOUND)) {
+            $asset = ['id' => $id, 'roomId' => $roomdId, 'name' => $name];
+        }
+        return $asset;
+    }
+
     public function findAssetsByRoom($roomId)
     {
         $this->validateName($roomId);

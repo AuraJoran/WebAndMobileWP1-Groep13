@@ -59,4 +59,43 @@ class TicketController extends Controller
         return new JsonResponse("Done!", $statuscode);
     }
 
+    /**
+     * @Route("/tickets/resolve", methods={"GET"}, name="resolveTicket")
+     */
+    public function resolveTicket(Request $request) {
+        $statuscode = 200;
+        $id = $request->query->get('id');
+
+        try {
+            $this->ticketModel->isResolved($id);
+        } catch (\InvalidArgumentException $exception) {
+            $statuscode = 400;
+        } catch (\PDOException $exception) {
+            $statuscode = 500;
+        }
+
+        return new JsonResponse("Done!", $statuscode);
+    }
+
+    /**
+     * @Route("/ticketsGrouped", methods={"GET"}, name="findTicketsGrouped")
+     */
+    public function findTicketsGrouped(Request $request)
+    {
+        $statuscode = 200;
+        $tickets = null;
+
+        try {
+            $tickets = $this->ticketModel->findAllTicketsGrouped();
+            if ($tickets == null){
+                $statuscode = 404;
+            }
+        } catch (\InvalidArgumentException $exception) {
+            $statuscode = 400;
+        } catch (\PDOException $exception) {
+            $statuscode = 500;
+        }
+
+        return new JsonResponse($tickets, $statuscode);
+    }
 }

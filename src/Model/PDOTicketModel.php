@@ -31,10 +31,39 @@ class PDOTicketModel implements TicketModel {
         return $tickets;
     }
 
+    public function findAllTicketsGrouped()
+    {
+        $pdo = $this->connection->getPDO();
+        $statement = $pdo->prepare('SELECT * FROM tickets GROUP BY assetId');
+        $statement->execute();
+        $statement->bindColumn(1, $id, \PDO::PARAM_INT);
+        $statement->bindColumn(2, $assetId, \PDO::PARAM_INT);
+        $statement->bindColumn(3, $numberOfVotes, \PDO::PARAM_INT);
+        $statement->bindColumn(4, $description, \PDO::PARAM_STR);
+        $statement->bindColumn(5, $resolved, \PDO::PARAM_BOOL);
+
+        $tickets = [];
+        $counter = 0;
+        while ($statement->fetch(\PDO::FETCH_BOUND)) {
+            $tickets[$counter] = ['id' => $id, 'assetId' => $assetId, 'numberOfVotes' => $numberOfVotes, 'description' => $description, 'resolved' => $resolved];
+            $counter++;
+        }
+        return $tickets;
+    }
+
+
     public function addNumberOfVotesByOne($id) {
         $this->validateId($id);
         $pdo = $this->connection->getPDO();
         $statement = $pdo->prepare('UPDATE tickets SET numberOfVotes = numberOfVotes + 1 WHERE id =:id');
+        $statement->bindParam(':id', $id, \PDO::PARAM_INT);
+        $statement->execute();
+    }
+
+    public function isResolved($id) {
+        $this->validateId($id);
+        $pdo = $this->connection->getPDO();
+        $statement = $pdo->prepare('UPDATE tickets SET resolved = true WHERE id =:id');
         $statement->bindParam(':id', $id, \PDO::PARAM_INT);
         $statement->execute();
     }
