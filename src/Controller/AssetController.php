@@ -19,7 +19,7 @@ class AssetController extends Controller
     }
 
     /**
-     * @Route("/assets", name="getAssetByName")
+     * @Route("/asset", name="getAssetByName")
      */
     public function findAssetByName(Request $request)
     {
@@ -39,5 +39,28 @@ class AssetController extends Controller
         }
 
         return new JsonResponse($asset, $statuscode);
+    }
+
+    /**
+     * @Route("/assets", name="getAssetByRoom")
+     */
+    public function findAssetByRoom(Request $request)
+    {
+        $statuscode = 200;
+        $name = $request->query->get("room");
+        $assets = null;
+
+        try {
+            $assets = $this->assetModel->findAssetsByRoom($name);
+            if ($assets == null){
+                $statuscode = 404;
+            }
+        } catch (\InvalidArgumentException $exception) {
+            $statuscode = 400;
+        } catch (\PDOException $exception) {
+            $statuscode = 500;
+        }
+
+        return new JsonResponse($assets, $statuscode);
     }
 }

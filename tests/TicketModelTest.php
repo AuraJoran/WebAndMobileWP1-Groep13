@@ -29,24 +29,17 @@ class TicketModelTest extends TestCase
 
         $this->assertNotEmpty($result);
     }
-    public function testFindTicketById()
-    {
 
-        $ticketmodel = new PDOTicketModel($this->connection);
-        $result = $ticketmodel->findTicketById("1");
-
-        $this->assertNotEmpty($result);
-    }
 
     public function testAddNumberOfVotesByOne()
     {
 
         $ticketmodel = new PDOTicketModel($this->connection);
-        $result = $ticketmodel->findTicketById("1");
-        $before = json_decode($result['numberOfVotes'], true);
+        $result = $ticketmodel->findTicketsByAssetName("test");
+        $before = json_decode(reset($result)['numberOfVotes'], true);
         $ticketmodel->addNumberOfVotesByOne("1");
-        $result = $ticketmodel->findTicketById("1");
-        $after = json_decode($result['numberOfVotes'], true);
+        $result = $ticketmodel->findTicketsByAssetName("test");
+        $after = json_decode(reset($result)['numberOfVotes'], true);
 
         $this->assertEquals($before +1, $after);
     }
@@ -63,6 +56,6 @@ class TicketModelTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
 
         $ticketmodel = new PDOTicketModel($this->connection);
-        $result = $ticketmodel->findTicketById("test");
+        $result = $ticketmodel->addNumberOfVotesByOne("test");
     }
 }
