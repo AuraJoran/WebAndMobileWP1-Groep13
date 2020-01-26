@@ -22,10 +22,12 @@ class PDOTicketModel implements TicketModel {
         $statement->bindColumn(2, $assetId, \PDO::PARAM_INT);
         $statement->bindColumn(3, $numberOfVotes, \PDO::PARAM_INT);
         $statement->bindColumn(4, $description, \PDO::PARAM_STR);
+        $statement->bindColumn(5, $resolved, \PDO::PARAM_STR);
+
         $tickets = [];
         $counter = 0;
         while ($statement->fetch(\PDO::FETCH_BOUND)) {
-            $tickets[$counter] = ['id' => $id, 'assetId' => $assetId, 'numberOfVotes' => $numberOfVotes, 'description' => $description];
+            $tickets[$counter] = ['id' => $id, 'assetId' => $assetId, 'numberOfVotes' => $numberOfVotes, 'description' => $description, 'resolved' => $resolved];
             $counter++;
         }
         return $tickets;
@@ -63,7 +65,7 @@ class PDOTicketModel implements TicketModel {
     public function isResolved($id) {
         $this->validateId($id);
         $pdo = $this->connection->getPDO();
-        $statement = $pdo->prepare('UPDATE tickets SET resolved = true WHERE id =:id');
+        $statement = $pdo->prepare('UPDATE tickets SET resolved = !resolved WHERE id =:id');
         $statement->bindParam(':id', $id, \PDO::PARAM_INT);
         $statement->execute();
     }

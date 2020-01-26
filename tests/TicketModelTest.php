@@ -58,4 +58,26 @@ class TicketModelTest extends TestCase
         $ticketmodel = new PDOTicketModel($this->connection);
         $result = $ticketmodel->addNumberOfVotesByOne("test");
     }
+
+    public function testFindTicketsGrouped()
+    {
+
+        $ticketmodel = new PDOTicketModel($this->connection);
+        $result = $ticketmodel->findAllTicketsGrouped();
+
+        $this->assertNotEmpty($result);
+    }
+
+    public function testIsResolved()
+    {
+
+        $ticketmodel = new PDOTicketModel($this->connection);
+        $result = $ticketmodel->findTicketsByAssetName("test");
+        $before = json_decode(reset($result)['resolved'], true);
+        $ticketmodel->isResolved("1");
+        $result = $ticketmodel->findTicketsByAssetName("test");
+        $after = json_decode(reset($result)['resolved'], true);
+
+        $this->assertNotEquals($before, $after);
+    }
 }

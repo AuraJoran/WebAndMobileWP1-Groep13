@@ -12,7 +12,7 @@ use Symfony\Component\HttpClient\Exception\InvalidArgumentException;
 
 class AssetModelTest extends TestCase
 {
-    private $connection;
+    private $connectipon;
 
     public function setUp()
     {
@@ -27,6 +27,14 @@ class AssetModelTest extends TestCase
 
         $this->assertNotEmpty($result);
     }
+    public function testFindAssetById()
+    {
+
+        $assetmodel = new PDOAssetModel($this->connection);
+        $result = $assetmodel->findAssetById('1');
+
+        $this->assertNotEmpty($result);
+    }
 
     public function testInvalidName()
     {
@@ -34,5 +42,14 @@ class AssetModelTest extends TestCase
 
         $assetmodel = new PDOAssetModel($this->connection);
         $result = $assetmodel->findAssetByName(9);
+    }
+
+    public function testFindAssetByRoom()
+    {
+
+        $assetmodel = new PDOAssetModel($this->connection);
+        $result = $assetmodel->findAssetsByRoom("1");
+
+        $this->assertNotEmpty($result);
     }
 }
