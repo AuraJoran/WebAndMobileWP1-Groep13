@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6256f674b04e2818041239b3a5a39b46",
+    "content-hash": "e22455c39f7808796bee7b9da9d7aaaa",
     "packages": [
         {
             "name": "composer/xdebug-handler",
@@ -5845,6 +5845,7 @@
                 "code",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-code",
             "time": "2019-10-05T23:18:22+00:00"
         },
         {
@@ -5899,6 +5900,7 @@
                 "events",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-eventmanager",
             "time": "2018-04-25T15:33:34+00:00"
         }
     ],
@@ -6065,16 +6067,16 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v4.3.5",
+            "version": "v4.3.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
-                "reference": "f4b3ff6a549d9ed28b2b0ecd1781bf67cf220ee9"
+                "reference": "32203e7cc318dcfd1d5fb12ab35e595fc6016206"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/css-selector/zipball/f4b3ff6a549d9ed28b2b0ecd1781bf67cf220ee9",
-                "reference": "f4b3ff6a549d9ed28b2b0ecd1781bf67cf220ee9",
+                "url": "https://api.github.com/repos/symfony/css-selector/zipball/32203e7cc318dcfd1d5fb12ab35e595fc6016206",
+                "reference": "32203e7cc318dcfd1d5fb12ab35e595fc6016206",
                 "shasum": ""
             },
             "require": {
@@ -6114,7 +6116,7 @@
             ],
             "description": "Symfony CssSelector Component",
             "homepage": "https://symfony.com",
-            "time": "2019-10-02T08:36:26+00:00"
+            "time": "2020-01-04T12:24:57+00:00"
         },
         {
             "name": "symfony/debug-bundle",
@@ -6675,5 +6677,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*"
     },
-    "platform-dev": []
+    "platform-dev": {
+        "ext-json": "*"
+    }
 }

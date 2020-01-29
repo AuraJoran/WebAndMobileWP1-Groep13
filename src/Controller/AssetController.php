@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Model\TicketModel;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -10,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Model\AssetModel;
 use Symfony\Component\HttpFoundation\Request;
 
-class AssetController extends Controller
+class AssetController extends AbstractController
 {
     private $assetModel;
     private $ticketModel;
